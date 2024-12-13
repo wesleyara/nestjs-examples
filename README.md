@@ -33,3 +33,4 @@ This repository contains examples of NestJS applications. Each example is a part
 
 - [nestjs-lifecycle-and-task-scheduling](/nestjs-lifecycle-and-task-scheduling): This example demonstrates how to use the lifecycle hooks and task scheduling in NestJS.
 - [nestjs-with-prisma-and-turso](/nestjs-with-prisma-and-turso/): This example demonstrates how to use Prisma and Turso DB in NestJS.
+- [nestjs-with-jwt-auth-prisma-and-redis](/nestjs-with-jwt-auth-prisma-and-redis/): This example demonstrates how to use JWT authentication, Prisma, and Redis in NestJS.
