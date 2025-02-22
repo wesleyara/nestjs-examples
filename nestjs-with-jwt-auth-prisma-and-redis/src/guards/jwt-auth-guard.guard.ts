@@ -21,12 +21,14 @@ export class JwtAuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const authHeader = request.headers.authorization;
+    const { cookie } = request.headers;
 
-    if (!authHeader) {
-      throw new UnauthorizedException('Token not provided');
-    }
+    const tokenFromHeader = authHeader
+      ? this.extractTokenFromHeader(authHeader)
+      : null;
 
-    const token = authHeader.split(' ')[1];
+    const tokenFromCookie = cookie || null;
+    const token = tokenFromHeader || tokenFromCookie;
 
     if (!token) {
       throw new UnauthorizedException('Token not provided');
@@ -41,22 +43,27 @@ export class JwtAuthGuard implements CanActivate {
 
     const cacheKey = `account-${decoded.id}`;
 
-    const cachedAccount = await this.cacheService.get(cacheKey);
+    const cachedUser = await this.cacheService.get(cacheKey);
 
-    if (cachedAccount) {
-      request.user = cachedAccount;
+    if (cachedUser) {
+      request.user = cachedUser;
       return true;
     }
 
-    const account = await this.accountsRepository.findAccountById(decoded.id);
+    const user = await this.accountsRepository.findAccountById(decoded.id);
 
-    await this.cacheService.set(cacheKey, account, { ttl: 60 });
-
-    if (!account) {
-      throw new UnauthorizedException('Account not found');
+    if (!user) {
+      throw new UnauthorizedException('user not found');
     }
 
-    request.user = account;
+    await this.cacheService.set(cacheKey, user, { ttl: 60 } as any);
+
+    request.user = user;
     return true;
+  }
+
+  private extractTokenFromHeader(authHeader: any): string | undefined {
+    const [type, token] = authHeader.split(' ') ?? [];
+    return type === 'Bearer' ? token : undefined;
   }
 }

@@ -16,7 +16,6 @@ import { ConfigModule } from '@nestjs/config';
       port: process.env.REDIS_PORT || 6379,
       password: process.env.REDIS_PASSWORD || undefined,
       db: process.env.REDIS_DB || 0,
-      ttl: 5000,
       max: 10,
       isGlobal: true,
     }),
