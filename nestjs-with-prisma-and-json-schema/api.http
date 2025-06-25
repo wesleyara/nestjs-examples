@@ -1,0 +1,11 @@
+POST http://localhost:3333/api/v1/accounts/create
+Content-Type: application/json
+
+{
+  "name": "newuser",
+  "email": "testes@gmail.com"
+}
+
+###
+
+GET http://localhost:3333/api/v1/accounts/73c97234-f191-4dd5-ba28-11d2879ff517
