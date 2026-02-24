@@ -3,7 +3,6 @@ import {
   Controller,
   Get,
   HttpCode,
-  HttpException,
   Inject,
   Post,
   Req,
@@ -23,54 +22,22 @@ export class AccountsController {
   @HttpCode(200)
   @UseGuards(JwtAuthGuard)
   async getAccount(@Req() request: AuthenticatedRequest) {
-    try {
-      return request.user;
-    } catch (error) {
-      throw new HttpException(
-        {
-          statusCode: error.status || 500,
-          message: error.message,
-        },
-        error.status || 500,
-      );
-    }
+    return request.user;
   }
 
   @Post('create')
   @HttpCode(201)
   async createAccount(@Body() data: CreateAccountDto) {
-    try {
-      const response = await this.accountsService.createAccount(data);
-
-      return response;
-    } catch (error) {
-      throw new HttpException(
-        {
-          statusCode: error.status || 500,
-          message: error.message,
-        },
-        error.status || 500,
-      );
-    }
+    return this.accountsService.createAccount(data);
   }
 
   @Post('login')
   @HttpCode(200)
   async login(@Body() data: CreateAccountDto) {
-    try {
-      const token = await this.accountsService.login(data);
+    const token = await this.accountsService.login(data);
 
-      return {
-        token,
-      };
-    } catch (error) {
-      throw new HttpException(
-        {
-          statusCode: error.status || 500,
-          message: error.message,
-        },
-        error.status || 500,
-      );
-    }
+    return {
+      token,
+    };
   }
 }

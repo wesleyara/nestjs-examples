@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:latest
-    container_name: postgres-example-app
+    container_name: postgres-jwt-auth-prisma-and-redis-example
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
@@ -9,11 +9,11 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
 
   redis:
     image: redis:latest
-    container_name: redis-example-app
+    container_name: redis-jwt-auth-prisma-and-redis-example
     ports:
       - "6379:6379"
     volumes:

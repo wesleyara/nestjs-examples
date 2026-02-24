@@ -3,7 +3,6 @@ import { PrismaModule } from './prisma/prisma.module';
 import { EncryptModule } from './encrypt/encrypt.module';
 import { TokenModule } from './token/token.module';
 import { CacheModule } from '@nestjs/cache-manager';
-import { ErrorHandlerModule } from './error-handler/error-handler.module';
 import * as redisStore from 'cache-manager-redis-store';
 import { ConfigModule } from '@nestjs/config';
 
@@ -22,7 +21,6 @@ import { ConfigModule } from '@nestjs/config';
     PrismaModule,
     EncryptModule,
     TokenModule,
-    ErrorHandlerModule,
   ],
   exports: [PrismaModule, EncryptModule, TokenModule],
 })

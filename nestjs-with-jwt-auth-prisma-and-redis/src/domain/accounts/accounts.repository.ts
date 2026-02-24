@@ -1,15 +1,10 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { PrismaService } from 'src/infra/prisma/prisma.service';
 import { CreateAccountProps } from './interface/accounts.interface';
-import { ErrorHandlerService } from 'src/infra/error-handler/error-handler.service';
-import { ErrorStatus } from 'src/infra/error-handler/error-handler.interface';
 
 @Injectable()
 export class AccountsRepository {
   constructor(private readonly prisma: PrismaService) {}
-
-  @Inject(ErrorHandlerService)
-  private errorHandlerService: ErrorHandlerService;
 
   async createAccount(data: CreateAccountProps) {
     try {
@@ -20,10 +15,7 @@ export class AccountsRepository {
       return account;
     } catch (error) {
       console.log(error);
-      this.errorHandlerService.dispatch({
-        message: 'Erro ao criar conta',
-        status: ErrorStatus.INTERNAL_SERVER_ERROR,
-      });
+      throw new InternalServerErrorException('Erro ao criar conta');
     }
   }
 
@@ -38,10 +30,7 @@ export class AccountsRepository {
       return account;
     } catch (error) {
       console.log(error);
-      this.errorHandlerService.dispatch({
-        message: 'Erro ao buscar conta',
-        status: ErrorStatus.INTERNAL_SERVER_ERROR,
-      });
+      throw new InternalServerErrorException('Erro ao buscar conta');
     }
   }
 
@@ -61,10 +50,7 @@ export class AccountsRepository {
       return account;
     } catch (error) {
       console.log(error);
-      this.errorHandlerService.dispatch({
-        message: 'Erro ao buscar conta',
-        status: ErrorStatus.INTERNAL_SERVER_ERROR,
-      });
+      throw new InternalServerErrorException('Erro ao buscar conta');
     }
   }
 }

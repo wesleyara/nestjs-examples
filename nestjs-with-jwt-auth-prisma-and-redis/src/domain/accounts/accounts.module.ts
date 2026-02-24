@@ -5,7 +5,6 @@ import { EncryptService } from 'src/infra/encrypt/encrypt.service';
 import { AccountsController } from './accounts.controller';
 import { AccountsService } from './accounts.service';
 import { InfraModule } from 'src/infra/infra.module';
-import { ErrorHandlerService } from 'src/infra/error-handler/error-handler.service';
 
 @Module({
   imports: [InfraModule],
@@ -15,7 +14,6 @@ import { ErrorHandlerService } from 'src/infra/error-handler/error-handler.servi
     EncryptService,
     AccountsRepository,
     AccountsService,
-    ErrorHandlerService,
   ],
   exports: [AccountsRepository, AccountsService],
 })
