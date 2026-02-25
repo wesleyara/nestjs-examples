@@ -59,3 +59,5 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 yarn.lock
 package-lock.json
 bun.lockb
+
+generated/prisma
