@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Prisma } from 'generated/prisma/client';
 import { PrismaService } from 'src/infra/prisma/prisma.service';
 
 type CreateAdminProps = Prisma.AdminCreateInput;
@@ -14,7 +14,8 @@ export class AdminsRepository {
 
       return response;
     } catch (error) {
-      throw new Error(error);
+      console.error('Erro ao criar admin:', error);
+      throw new InternalServerErrorException('Erro ao criar admin');
     }
   }
 
@@ -28,7 +29,8 @@ export class AdminsRepository {
 
       return response;
     } catch (error) {
-      throw new Error(error);
+      console.error('Erro ao encontrar admin:', error);
+      throw new InternalServerErrorException('Erro ao encontrar admin');
     }
   }
 }
