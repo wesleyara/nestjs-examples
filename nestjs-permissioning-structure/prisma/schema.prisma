@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Account {
+  id              String           @id @default(uuid())
+  username        String           @unique
+  name            String?
+  password        String
+  accountProfiles AccountProfile[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model Client {
+  id              String   @id @default(uuid())
+  name            String
+  document        String   @unique
+  phone           String
+  address         String
+  email           String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Profile {
+  id               String            @id @default(uuid())
+  name             String            @unique
+  profileEndpoints ProfileEndpoint[]
+  accountProfiles  AccountProfile[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model Endpoint {
+  id               String            @id @default(uuid())
+  name             String
+  path             String
+  method           String
+  profileEndpoints ProfileEndpoint[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model ProfileEndpoint {
+  id         String   @id @default(uuid())
+  profileId  String
+  endpointId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  profile  Profile  @relation(fields: [profileId], references: [id])
+  endpoint Endpoint @relation(fields: [endpointId], references: [id])
+}
+
+model AccountProfile {
+  id        String   @id @default(uuid())
+  accountId String
+  profileId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  account Account @relation(fields: [accountId], references: [id])
+  profile Profile @relation(fields: [profileId], references: [id])
+}

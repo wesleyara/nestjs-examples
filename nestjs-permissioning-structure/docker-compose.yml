@@ -1,0 +1,35 @@
+services:
+  redis:
+    image: redis:latest
+    container_name: nestjs-permissioning-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass secret
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_DB=${REDIS_DB}
+
+  redisinsight:
+    image: redis/redisinsight:latest
+    container_name: nestjs-permissioning-redisinsight
+    ports:
+      - "5540:5540"
+    volumes:
+      - redisinsight_data:/data
+    restart: unless-stopped
+    depends_on:
+      - redis
+    environment:
+      - RI_REDIS_HOST=redis
+      - RI_REDIS_PORT=6379
+      - RI_REDIS_ALIAS=gestao-escritorio-redis
+      - RI_REDIS_PASSWORD=${REDIS_PASSWORD}
+
+volumes:
+  redis_data:
+  redisinsight_data:
