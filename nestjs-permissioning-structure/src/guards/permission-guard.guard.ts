@@ -26,6 +26,7 @@ export class PermissionGuard implements CanActivate {
 
     const cacheKey = `profiles`;
 
+    // TODO: precisamos dessa validação?
     let profiles: ProfileTypes[] = await this.cacheService.get(cacheKey);
 
     if (!profiles) {
